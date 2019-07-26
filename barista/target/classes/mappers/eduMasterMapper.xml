@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- namespace 는 DAO나 DAOImpl에 정의한 namespace와 동일해야 함. -->
+<mapper namespace="org.zerock.mapper.eduMasterMapper">
+	<select id="getReceiptList" resultType="org.zerock.domain.EduMasterVO">
+		SELECT * FROM EDU_MASTER WHERE TO_CHAR(SYSDATE,'YYYYMMDDHH24MI') BETWEEN BGNDE AND ENDDE
+	</select>
+	
+	<select id="selectMasterView" resultType="org.zerock.domain.EduMasterVO">
+		SELECT * FROM EDU_MASTER WHERE EDU_SN=#{edu_sn}
+	</select>
+	
+	<select id="selectReceiptYN" resultType="int">
+		SELECT COUNT(*)
+		FROM
+			EDU_MASTER A,
+			EDU_APPLICANT B
+		WHERE
+			A.EDU_SN = B.EDU_SN
+			AND A.EDU_SN = #{edu_sn}
+			AND B.APC_SN = #{eduAppicant.apc_sn}
+			AND (A.EDU_BGNDE BETWEEN #{edu_bgnde} AND #{edu_endde}
+			OR A.EDU_ENDDE BETWEEN #{edu_bgnde} AND #{edu_endde})
+	</select>
+</mapper>

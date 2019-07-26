@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- namespace 는 DAO나 DAOImpl에 정의한 namespace와 동일해야 함. -->
+<mapper namespace="org.zerock.mapper.examScoreMapper">
+<select id="selectList" resultType="org.zerock.domain.ExamScoreVO">
+	SELECT * FROM EXAM_MASTER WHERE TO_CHAR(SYSDATE,'YYYYMMDDHH24MI') BETWEEN BGNDE AND ENDDE
+</select>
+
+<select id="getScoreInfo"  resultType="org.zerock.domain.ExamScoreVO" parameterType="map">
+	SELECT * FROM EXAM_SCORE WHERE APC_SN=#{apc_sn}
+</select>
+
+
+
+</mapper>

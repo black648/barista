@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- namespace 는 DAO나 DAOImpl에 정의한 namespace와 동일해야 함. -->
+<mapper namespace="org.zerock.mapper.BoardMapper">
+
+<sql id="search">
+
+<if test="searchType!=null">
+	<if test="searchType=='tc'.toString()">
+		and (title like concat(concat('%',#{keyword}),'%') OR content like concat(concat('%',#{keyword}),'%'))
+	</if>
+	<if test="searchType=='t'.toString()">
+		and title like concat(concat('%',#{keyword}),'%')
+            
+	</if>
+	<if test="searchType=='c'.toString()">
+		and content like concat(concat('%',#{keyword}),'%')
+	</if>
+</if>
+
+</sql>
+
+
+<select id="selectList" resultType="org.zerock.domain.BoardVO">
+	<![CDATA[
+	SELECT * FROM
+(SELECT ROWNUM AS RNUM,Z.* FROM (select * from board where instance_id=#{instance_id} AND del_yn='N' AND is_public='Y' 
+]]>
+<include refid="search"></include>
+<![CDATA[
+order by id desc) Z 
+WHERE ROWNUM <=#{perPageNum})
+WHERE  RNUM>=#{pageStart}
+	
+	
+	]]>
+</select>
+	
+<select id="countList" resultType="int">
+	<![CDATA[
+	SELECT COUNT(ID) FROM BOARD WHERE ID>0
+	]]>
+	<include refid="search"></include>
+</select>
+
+<select id="selectView" resultType="org.zerock.domain.BoardVO">
+	<![CDATA[
+	SELECT * FROM BOARD WHERE ID=#{id}
+	]]>
+</select>
+
+<update id="countUpdate">
+	update board set read_cnt=read_cnt+1 where id=#{id}
+</update>
+
+
+
+</mapper>

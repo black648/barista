@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+
+ 
+
+<decorators defaultdir="/resources/decorators">
+
+    <excludes> 
+	 	<pattern>/file*</pattern> 
+	</excludes> 
+
+    <decorator name="default" page="default.jsp">
+       <pattern>/*</pattern>  
+    </decorator>  
+
+     <decorator name="topMenu" page="/common/topMenu" />
+
+
+</decorators>

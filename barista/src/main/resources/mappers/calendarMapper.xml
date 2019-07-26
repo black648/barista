@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- namespace 는 DAO나 DAOImpl에 정의한 namespace와 동일해야 함. -->
+<mapper namespace="org.zerock.mapper.calendarMapper">
+<select id="getYYYYList" resultType="string">
+	<![CDATA[
+		SELECT TO_CHAR(sysdate,'yyyy')+1-LEVEL AS YYYY FROM DUAL CONNECT BY LEVEL<11 ORDER BY 1 DESC
+	]]>
+</select>
+<select id="getSysDt" resultType="org.zerock.domain.CalendarVO">
+	SELECT TO_CHAR(SYSDATE,'YYYY') CAL_YYYY, TO_CHAR(SYSDATE,'MM') CAL_MM FROM DUAL
+</select>
+<select id="getCalList" resultType="org.zerock.domain.CalendarVO">
+	SELECT * FROM CALENDAR a WHERE 
+	<choose>
+		<when test="cal_yyyy ==null || cal_yyyy==''">
+			CAL_YYYY=(SELECT TO_CHAR(SYSDATE,'YYYY') FROM DUAL) AND CAL_MM=(SELECT TO_CHAR(SYSDATE,'MM') FROM DUAL)
+		</when>
+		<otherwise>
+			CAL_YYYY=#{cal_yyyy} AND CAL_MM=LPAD(#{cal_mm},2,'0')
+		</otherwise>
+		
+	</choose>
+	ORDER BY CAL_YYYYMMDD
+</select>
+
+<select id="getCalDetailList" resultType="org.zerock.domain.CalendarDetailVO">
+	SELECT spec_date, memo, memo1, memo2, memo3 FROM(
+		SELECT substr(BGNDE,0,8) spec_date,'[교육] '||title||' 접수시작' memo, '접수기간 : '|| TO_CHAR(TO_DATE(BGNDE,'YYYYMMDDHH24MI'),'YYYY-MM-DD')||' ~ '||TO_CHAR(TO_DATE(ENDDE,'YYYYMMDDHH24MI'),'YYYY-MM-DD') memo1, '교육기간: '||TO_CHAR(TO_DATE(EDU_BGNDE,'YYYYMMDD'),'YYYY-MM-DD')||' ~ '||TO_CHAR(TO_DATE(EDU_ENDDE,'YYYYMMDD'),'YYYY-MM-DD') memo2,'' memo3 FROM edu_master WHERE substr(BGNDE,0,8)=#{spec_date}
+		UNION ALL
+		SELECT substr(ENDde,0,8) spec_date,'[교육] '||title||' 접수마감' memo, '접수기간 : '|| TO_CHAR(TO_DATE(BGNDE,'YYYYMMDDHH24MI'),'YYYY-MM-DD')||' ~ '||TO_CHAR(TO_DATE(ENDDE,'YYYYMMDDHH24MI'),'YYYY-MM-DD') memo1, '교육기간: '||TO_CHAR(TO_DATE(EDU_BGNDE,'YYYYMMDD'),'YYYY-MM-DD')||' ~ '||TO_CHAR(TO_DATE(EDU_ENDDE,'YYYYMMDD'),'YYYY-MM-DD') memo2,'' memo3 FROM edu_master WHERE substr(BGNDE,0,8)=#{spec_date}
+		UNION ALL
+		SELECT substr(EDU_BGNDE,0,8) spec_date,'[교육] '||title||' 교육시작' memo,'접수기간 : '|| TO_CHAR(TO_DATE(BGNDE,'YYYYMMDDHH24MI'),'YYYY-MM-DD')||' ~ '||TO_CHAR(TO_DATE(ENDDE,'YYYYMMDDHH24MI'),'YYYY-MM-DD') memo1, '교육기간: '||TO_CHAR(TO_DATE(EDU_BGNDE,'YYYYMMDD'),'YYYY-MM-DD')||' ~ '||TO_CHAR(TO_DATE(EDU_ENDDE,'YYYYMMDD'),'YYYY-MM-DD') memo2,'' memo3 FROM edu_master WHERE substr(EDU_BGNDE,0,8)=#{spec_date}
+		UNION ALL
+		SELECT substr(EDU_ENDDE,0,8) spec_date,'[교육] '||title||' 교육종료' memo,'접수기간 : '|| TO_CHAR(TO_DATE(BGNDE,'YYYYMMDDHH24MI'),'YYYY-MM-DD')||' ~ '||TO_CHAR(TO_DATE(ENDDE,'YYYYMMDDHH24MI'),'YYYY-MM-DD') memo1, '교육기간: '||TO_CHAR(TO_DATE(EDU_BGNDE,'YYYYMMDD'),'YYYY-MM-DD')||' ~ '||TO_CHAR(TO_DATE(EDU_ENDDE,'YYYYMMDD'),'YYYY-MM-DD') memo2,'' memo3 FROM edu_master WHERE substr(EDU_ENDDE,0,8)=#{spec_date}
+		UNION ALL
+		SELECT substr(BGNDE,0,8) spec_date,'[검정] '||title||' 접수시작' memo,'접수기간 : '|| TO_CHAR(TO_DATE(BGNDE,'YYYYMMDDHH24MI'),'YYYY-MM-DD')||' ~ '||TO_CHAR(TO_DATE(ENDDE,'YYYYMMDDHH24MI'),'YYYY-MM-DD') memo1, '검정일: '||TO_CHAR(TO_DATE(EXAMDE,'YYYYMMDD'),'YYYY-MM-DD') memo2,'합격자발표일: '||TO_CHAR(TO_DATE(PUBLICATION_DE,'YYYYMMDDHH24MISS'),'YYYY-MM-DD HH24:MI:SS') memo3  FROM exam_master WHERE substr(BGNDE,0,8)=#{spec_date}
+		UNION ALL
+		SELECT substr(ENDDE,0,8) spec_date,'[검정] '||title||' 접수마감' memo,'접수기간 : '|| TO_CHAR(TO_DATE(BGNDE,'YYYYMMDDHH24MI'),'YYYY-MM-DD')||' ~ '||TO_CHAR(TO_DATE(ENDDE,'YYYYMMDDHH24MI'),'YYYY-MM-DD') memo1, '검정일: '||TO_CHAR(TO_DATE(EXAMDE,'YYYYMMDD'),'YYYY-MM-DD') memo2,'합격자발표일: '||TO_CHAR(TO_DATE(PUBLICATION_DE,'YYYYMMDDHH24MISS'),'YYYY-MM-DD HH24:MI:SS') memo3 FROM exam_master WHERE substr(ENDDE,0,8)=#{spec_date}
+		UNION ALL
+		SELECT EXAMDE spec_date,'[검정] '||title||' 검정일' memo,'접수기간 : '|| TO_CHAR(TO_DATE(BGNDE,'YYYYMMDDHH24MI'),'YYYY-MM-DD')||' ~ '||TO_CHAR(TO_DATE(ENDDE,'YYYYMMDDHH24MI'),'YYYY-MM-DD') memo1, '검정일: '||TO_CHAR(TO_DATE(EXAMDE,'YYYYMMDD'),'YYYY-MM-DD') memo2,'합격자발표일: '||TO_CHAR(TO_DATE(PUBLICATION_DE,'YYYYMMDDHH24MISS'),'YYYY-MM-DD HH24:MI:SS') memo3 FROM exam_master WHERE EXAMDE=#{spec_date}
+		UNION ALL
+		SELECT substr(PUBLICATION_DE,0,8) spec_date,'[검정] '||title||' 합격자발표일' memo,'접수기간 : '|| TO_CHAR(TO_DATE(BGNDE,'YYYYMMDDHH24MI'),'YYYY-MM-DD')||' ~ '||TO_CHAR(TO_DATE(ENDDE,'YYYYMMDDHH24MI'),'YYYY-MM-DD') memo1, '검정일: '||TO_CHAR(TO_DATE(EXAMDE,'YYYYMMDD'),'YYYY-MM-DD') memo2,'합격자발표일: '||TO_CHAR(TO_DATE(PUBLICATION_DE,'YYYYMMDDHH24MISS'),'YYYY-MM-DD HH24:MI:SS') memo3 FROM exam_master WHERE substr(PUBLICATION_DE,0,8) =#{spec_date}
+	)
+</select>
+
+</mapper>

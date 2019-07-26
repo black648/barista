@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sitemesh>
+	<mapping>
+		<path>/*</path>
+		<decorator>/resources/decorators/default.jsp</decorator>
+	</mapping>
+	<!-- 
+	<mapping>
+		<path>/*</path>
+		<decorator>/resources/decorators/decorator.jsp</decorator>
+	</mapping>
+	 -->
+	 <excludes> 
+	 	<pattern>/file*</pattern> 
+	 </excludes> 
+	 
+	 <!-- common 영역 -->
+	 <decorator name="topMenu" page="/common/topMenu" />
+</sitemesh>

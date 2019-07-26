@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- namespace 는 DAO나 DAOImpl에 정의한 namespace와 동일해야 함. -->
+<mapper namespace="org.zerock.mapper.examApplicantMapper">
+
+
+<update id="renewApplicant">
+MERGE INTO EXAM_APPLICANT USING DUAL ON (APC_SN = #{apc_sn,jdbcType=VARCHAR})
+WHEN MATCHED THEN
+  UPDATE
+  SET 
+    MBER_NAME =#{mber_name},
+    MBER_ENGNAME =#{mber_engname},
+    GUNMUL    =#{gunmul},
+    ADDRESS1  =#{address1},
+    MBER_PHONE=#{mber_phone},
+    EMAIL     =#{email},
+    UPD_DE    =SYSDATE ,
+    EXAM_PLACE_CODE=#{exam_place_code},
+    BIRTH=#{birth}
+    WHEN NOT MATCHED THEN
+  INSERT
+    (EXAM_SN,
+      APC_SN,
+      MBER_ID,
+      MBER_NAME,
+      GUNMUL,
+      ADDRESS1,
+      MBER_PHONE,
+      EMAIL,
+      CRE_DE,
+      UPD_DE,
+      GRADE,
+      MBER_ENGNAME,
+      BIRTH,
+      EXAM_PLACE_CODE
+    )
+    VALUES
+    (
+      #{exam_sn},
+      #{apc_sn},
+      #{mber_id},
+      #{mber_name},
+      #{gunmul},
+      #{address1},
+      #{mber_phone},
+      #{email},
+      sysdate,
+      sysdate,
+      #{grade},
+      #{mber_engname},
+      #{birth},
+      #{exam_place_code}
+    )
+
+</update>
+
+<select id="selectView" resultType="org.zerock.domain.ExamApplicantVO">
+	<![CDATA[
+	SELECT 
+		A.*
+	FROM EXAM_APPLICANT A
+	WHERE 
+		A.EXAM_SN=#{exam_sn} AND
+		A.MBER_ID=#{mber_id}
+			
+	]]>
+</select>
+<select id="selectMaxSn" resultType="String">
+	<![CDATA[
+	SELECT APC_SN FROM(
+		SELECT ROWNUM, APC_SN FROM(
+			SELECT APC_SN FROM EXAM_APPLICANT WHERE EXAM_SN=#{exam_sn} ORDER BY APC_SN DESC)
+		WHERE ROWNUM=1
+	)
+	]]>
+</select>
+
+<select id="getAppInfo" resultType="org.zerock.domain.ExamApplicantVO" parameterType="map">
+	<![CDATA[
+	SELECT * FROM EXAM_APPLICANT A
+	WHERE 
+		EXAM_SN=#{exam_sn} AND
+		MBER_ID=#{mber_id}
+			
+	]]>
+</select>
+
+
+
+</mapper>

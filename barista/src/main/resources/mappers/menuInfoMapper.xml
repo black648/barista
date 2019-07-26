@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- namespace 는 DAO나 DAOImpl에 정의한 namespace와 동일해야 함. -->
+<mapper namespace="org.zerock.mapper.menuInfoMapper">
+<select id="getMenuList" resultType="org.zerock.domain.MenuInfoVO">
+	<![CDATA[
+	SELECT
+		MENU_CODE,
+		MENU_NAME,
+		P_MENU_CODE,
+		LVL,
+		MENU_FORM,
+		DEL_YN,
+		CRE_ID,
+		CRE_DE,
+		UPD_ID,
+		UPD_DE,
+		URL,
+		ORD,
+		RANK() OVER(PARTITION BY SUBSTR(MENU_CODE, 0, 6) ORDER BY LVL, ORD) RANK
+	FROM
+		MENU_INFO
+	WHERE
+		DEL_YN = 'N'
+		AND LVL <> 0 
+	]]>
+</select>
+
+</mapper>

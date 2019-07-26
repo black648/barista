@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- namespace 는 DAO나 DAOImpl에 정의한 namespace와 동일해야 함. -->
+<mapper namespace="org.zerock.mapper.AttachMapper">
+
+<insert id="insertAttach">
+insert into common_attach(seqno,grpno,savedfilename,orgfilename,dirpath,state,upd_id,upd_date,division) values(attach_seq.NEXTVAL,#{grpno},#{savedfilename},#{orgfilename},#{dirpath},#{state},#{upd_id},sysdate,#{division})
+</insert>
+
+<select id="getFileList"  resultType="org.zerock.domain.AttachVO">
+<![CDATA[
+SELECT A.*,REGEXP_SUBSTR(A.ORGFILENAME, '[^.]+', 1,2) FILE_TYPE FROM(
+	SELECT * FROM COMMON_ATTACH WHERE GRPNO=#{grpno} AND DIVISION=#{division} ORDER BY SEQNO DESC) A
+]]>
+</select>
+
+<select id="getOneFile"  resultType="org.zerock.domain.AttachVO">
+	SELECT * FROM COMMON_ATTACH WHERE SEQNO=#{seqno}
+</select>
+
+<select id="getSeq" resultType="org.zerock.domain.AttachVO">
+	<![CDATA[
+	select attach_seq.nextval as seqno from dual
+	]]>
+</select>
+	
+
+
+</mapper>

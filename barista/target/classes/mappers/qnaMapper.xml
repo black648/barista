@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- namespace 는 DAO나 DAOImpl에 정의한 namespace와 동일해야 함. -->
+<mapper namespace="org.zerock.mapper.QnaMapper">
+
+<sql id="search">
+
+<if test="searchType!=null">
+	<if test="searchType=='tc'.toString()">
+		and (title like concat(concat('%',#{keyword}),'%') OR content like concat(concat('%',#{keyword}),'%'))
+	</if>
+	<if test="searchType=='t'.toString()">
+		and title like concat(concat('%',#{keyword}),'%')
+            
+	</if>
+	<if test="searchType=='c'.toString()">
+		and content like concat(concat('%',#{keyword}),'%')
+	</if>
+</if>
+
+</sql>
+<select id="getSeqNo" resultType="int">
+	SELECT QNA_SEQ.NEXTVAL AS SN FROM DUAL
+</select>
+
+<select id="selectList" resultType="org.zerock.domain.QnaVO">
+	<![CDATA[
+SELECT * FROM (SELECT ROWNUM AS RNUM,Z.* FROM(SELECT 
+SN,
+MBER_NO,
+substr(mber_name,1,1) || lpad('*',length(mber_name)-2,'*') || substr(mber_name, length(mber_name), 1) MBER_NAME,
+MBER_ID,
+MBER_PHONE,
+CRE_DE,
+ANSWER_DE,
+CONTENT,
+DEL_AT,
+OFF_AT,
+EMAIL,
+MIDDLE_CODE,
+ROW_CODE,
+STATE,
+TITLE
+
+FROM QNA WHERE DEL_AT='N' 
+]]>
+<include refid="search"></include>
+<![CDATA[
+ORDER BY SN DESC) Z 
+WHERE ROWNUM <=#{perPageNum})
+WHERE  RNUM>=#{pageStart}
+	
+	
+	]]>
+</select>
+	
+<select id="countList" resultType="int">
+	<![CDATA[
+	SELECT COUNT(SN) FROM QNA WHERE SN>0
+	]]>
+	<include refid="search"></include>
+</select>
+
+<select id="selectView" resultType="org.zerock.domain.QnaVO">
+	<![CDATA[
+	SELECT
+	SN,
+MBER_NO,
+substr(mber_name,1,1) || lpad('*',length(mber_name)-2,'*') || substr(mber_name, length(mber_name), 1) MBER_NAME,
+MBER_ID,
+MBER_PHONE,
+CRE_DE,
+ANSWER_DE,
+CONTENT,
+DEL_AT,
+OFF_AT,
+EMAIL,
+MIDDLE_CODE,
+ROW_CODE,
+STATE,
+TITLE
+	FROM QNA WHERE SN=#{sn}
+	]]>
+</select>
+
+<update id="countUpdate">
+	update board set read_cnt=read_cnt+1 where id=#{id}
+</update>
+
+<insert id="insertQna">
+insert into qna (sn,mber_no,mber_name,mber_id,mber_phone,cre_de,answer_de,content,del_at,off_at,email,middle_code,row_code,title)
+values(#{sn},#{mber_no},#{mber_name},#{mber_id},#{mber_phone},sysdate,'',#{content},'N',#{off_at},#{email},'','',#{title})
+</insert>
+
+<insert id="getAttach">
+insert into qna_attach(file_sn,sn,file_name,file_mask_name,path) values(qna_attach_seq.NEXTVAL,qna_seq.CURRVAL,#{file_name},#{file_mask_name},#{path})
+</insert>
+
+
+<select id="selectAttach" resultType="org.zerock.domain.QnaAttachVO">
+<![CDATA[
+SELECT A.*,REGEXP_SUBSTR(A.FILE_NAME, '[^.]+', 1,2) FILE_TYPE FROM(
+	SELECT * FROM QNA_ATTACH WHERE SN=#{SN}) A
+]]>
+</select>
+
+
+</mapper>

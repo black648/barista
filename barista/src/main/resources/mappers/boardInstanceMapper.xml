@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- namespace 는 DAO나 DAOImpl에 정의한 namespace와 동일해야 함. -->
+<mapper namespace="org.zerock.mapper.BoardInstanceMapper">
+
+<insert id="insertInstance">
+insert into board_instance(instance_id,instance_name) values(boardInstance_seq.NEXTVAL,#{instance_name})
+</insert>
+
+<select id="getInstanceList"  resultType="org.zerock.domain.BoardInstanceVO">
+	SELECT * FROM COMMON_ATTACH WHERE GRPNO=#{grpno} and DIVISION=#{division} ORDER BY SEQNO DESC
+</select>
+
+<select id="getOneInstance"  resultType="org.zerock.domain.BoardInstanceVO">
+	SELECT * FROM board_instance WHERE instance_name=#{instance_name}
+</select>
+
+<select id="getSeq" resultType="org.zerock.domain.BoardInstanceVO">
+	<![CDATA[
+	select attach_seq.nextval as seqno from dual
+	]]>
+</select>
+	
+
+
+</mapper>

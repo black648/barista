@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mabatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- namespace 는 DAO나 DAOImpl에 정의한 namespace와 동일해야 함. -->
+<mapper namespace="org.zerock.mapper.examMasterMapper">
+
+<resultMap id="MasterResult" type="org.zerock.domain.ExamMasterVO">
+	<result property="mber_id" column="MBER_ID" />
+	<association property="examApplicantVO" column="{exam_sn=EXAM_SN,mber_id=MBER_ID}" select="org.zerock.mapper.examApplicantMapper.getAppInfo" />
+	<association property="examScoreVO" column="{apc_sn=APC_SN}" select="org.zerock.mapper.examScoreMapper.getScoreInfo" />
+</resultMap>
+
+<select id="selectList" resultType="org.zerock.domain.ExamMasterVO">
+	SELECT * FROM EXAM_MASTER WHERE TO_CHAR(SYSDATE,'YYYYMMDDHH24MI') BETWEEN BGNDE AND ENDDE
+</select>
+
+<select id="selectView" resultType="org.zerock.domain.ExamMasterVO">
+	<![CDATA[
+	SELECT * FROM EXAM_MASTER WHERE EXAM_SN=#{exam_sn}
+	]]>
+</select>
+
+<select id="selectReceiptYN" resultType="int">
+	<![CDATA[
+	select count(*) from(
+		SELECT a.exam_sn,
+		  b.examde,
+		  a.mber_id
+		FROM exam_applicant a,
+		  exam_master b
+		WHERE a.exam_sn=b.exam_sn
+		AND A.MBER_ID  =#{examApplicantVO.mber_id}
+		AND SYSDATE BETWEEN TO_DATE(B.BGNDE,'YYYYMMDDHH24MISS') AND TO_DATE(B.ENDDE,'YYYYMMDDHH24MISS')
+		AND B.EXAMDE =#{examde}
+  	)
+	]]>
+</select>
+
+<!-- 접수확인 view 페이지 전. 현재 접수한 시험항목 조회를 위해 코드를 조회하는 쿼리. -->
+<select id="receiptMasterInfo" resultType="org.zerock.domain.ExamMasterVO">
+	SELECT b.*
+		FROM exam_applicant a,
+		  EXAM_MASTER b
+		WHERE a.exam_sn=b.exam_sn
+		AND a.mber_id  =#{mber_id}
+		AND to_date(b.examde
+  	||'235959','yyyymmddhh24miss')>sysdate
+</select>
+
+<select id="getPassList" resultType="org.zerock.domain.ExamMasterVO">
+<![CDATA[
+	SELECT * FROM EXAM_MASTER
+	WHERE ENDDE < TO_CHAR(SYSDATE,'YYYYMMDDHH24MI') 
+	AND   PUBLICATION_DE BETWEEN TO_CHAR(SYSDATE-30,'YYYYMMDDHH24MI') AND TO_CHAR(SYSDATE+30,'YYYYMMDDHH24MI')
+]]>
+</select>
+
+<select id="getPassView" resultMap="MasterResult">
+	SELECT 
+		A.DIVISION,A.TITLE,A.EXAM_SN,
+		B.APC_SN,B.MBER_NAME,B.MBER_ID,
+		C.SECTION1,C.SECTION2,C.SECTION3,C.SECTION4,C.SECTION5,C.TOTAL,C.SCORE,C.FAIL_YN,C.PASS_YN
+	FROM
+		EXAM_MASTER A, EXAM_APPLICANT B, EXAM_SCORE C 
+	WHERE A.EXAM_SN=B.EXAM_SN
+	AND   B.APC_SN=C.APC_SN 
+	AND   B.EXAM_SN=#{exam_sn}
+	AND   B.MBER_ID=#{mber_id}
+</select>
+
+</mapper>
