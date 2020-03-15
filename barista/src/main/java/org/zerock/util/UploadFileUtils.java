@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.FileCopyUtils;
 import org.zerock.domain.AttachVO;
+import org.zerock.domain.EduApplicantAttachVO;
 import org.zerock.domain.ExamApplicantAttachVO;
 
 public class UploadFileUtils {
@@ -81,35 +82,67 @@ public class UploadFileUtils {
 	}
 	
 	
-public static ExamApplicantAttachVO uploadApplicantFile(String uploadPath, String originalName, byte[] fileData)throws Exception {
+	public static ExamApplicantAttachVO uploadApplicantFile(String uploadPath, String originalName, byte[] fileData)throws Exception {
 		
-	ExamApplicantAttachVO attachVO = new ExamApplicantAttachVO();
+		ExamApplicantAttachVO attachVO = new ExamApplicantAttachVO();
 		UUID uid = UUID.randomUUID();
 		int idx = originalName.indexOf(".");
 		//String savedName = uid.toString()+"_."+originalName.substring(idx+1);
-		
+			
 		String savedName = uid.toString()+"_."+originalName.substring(idx+1);
 		String savedPath = calcPath(uploadPath); // 저장될 경로를 계산함.
-		
+			
 		File target = new File(uploadPath+savedPath, savedName);
 		FileCopyUtils.copy(fileData, target); //원본 파일을 저장하는 부분
-		
-		
+			
+			
 		String formatName = originalName.substring(originalName.lastIndexOf(".")+1);
 		String uploadedFileName = null;
-		
+			
 		if(MediaUtils.getMediaType(formatName)!=null) {
 			uploadedFileName = makeThumbnail(uploadPath,savedPath,savedName);
 		}
 		else {
 			uploadedFileName = makeIcon(uploadPath, savedPath, savedName);
 		}
-		
+			
 		attachVO.setSavedfilename(savedName);
 		attachVO.setDirpath(savedPath.substring(1));
-		
+			
 		return attachVO;
 	}
+	
+	
+	public static EduApplicantAttachVO uploadEduApplicantFile(String uploadPath, String originalName, byte[] fileData)throws Exception {
+		
+		EduApplicantAttachVO attachVO = new EduApplicantAttachVO();
+		UUID uid = UUID.randomUUID();
+		int idx = originalName.indexOf(".");
+		//String savedName = uid.toString()+"_."+originalName.substring(idx+1);
+			
+		String savedName = uid.toString()+"_."+originalName.substring(idx+1);
+		String savedPath = calcPath(uploadPath); // 저장될 경로를 계산함.
+			
+		File target = new File(uploadPath+savedPath, savedName);
+		FileCopyUtils.copy(fileData, target); //원본 파일을 저장하는 부분
+			
+			
+		String formatName = originalName.substring(originalName.lastIndexOf(".")+1);
+		String uploadedFileName = null;
+			
+		if(MediaUtils.getMediaType(formatName)!=null) {
+			uploadedFileName = makeThumbnail(uploadPath,savedPath,savedName);
+		}
+		else {
+			uploadedFileName = makeIcon(uploadPath, savedPath, savedName);
+		}
+			
+		attachVO.setSavedfilename(savedName);
+		attachVO.setDirpath(savedPath.substring(1));
+			
+		return attachVO;
+	}
+	
 	
 	
 	public static String calcPath(String uploadPath) {

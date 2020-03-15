@@ -54,7 +54,7 @@
 	<div class="content">
 		<!-- pass -->
 		<div class="receipt">
-			<p>합격정보를 확인할 검정을 선택하세요.</p>
+			<p>접수할 검정을 선택하세요.</p>
 
 			<h4 class="bu02 tit">시험명</h4>
 			<form name="frm" id="frm" onsubmit="toSubmit();return false;">

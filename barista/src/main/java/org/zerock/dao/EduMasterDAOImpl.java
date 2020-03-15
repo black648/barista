@@ -22,10 +22,10 @@ public class EduMasterDAOImpl implements EduMasterDAO{
 	
 	@Override
 	public EduMasterVO selectMasterView(String edu_sn) {
-		return sqlSession.selectOne(namespace+".selectMasterView");
+		return sqlSession.selectOne(namespace+".selectMasterView",edu_sn);
 	}
 	@Override
 	public int selectReceiptYN(EduMasterVO masterVO) {
-		return sqlSession.selectOne(namespace+".selectReceiptYN");
+		return sqlSession.selectOne(namespace+".selectReceiptYN",masterVO);
 	}
 }

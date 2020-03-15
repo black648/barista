@@ -200,6 +200,7 @@ button, input[type=button] { cursor:pointer; border:0; }
 .btn_brown2 { background:#634436; color:#fff; }
 .btn_grey { background:#717171; color:#fff; }
 .btn_gold { background:#c59035; color:#fff; }
+.btn_red { background:#FF0000; color:#fff; }
 
 .btn_search { background-repeat:no-repeat; background-image:url('/resources/include/images/ico/btn_search.png'); background-size:17px; background-position:7px center; padding-left:30px; }
 .btn_search2 { background-repeat:no-repeat; background-image:url('/resources/include/images/ico/btn_search.png'); background-size:17px; background-position:7px center; padding-left:30px; }

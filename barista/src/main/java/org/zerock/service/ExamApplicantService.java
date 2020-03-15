@@ -5,11 +5,11 @@ import org.zerock.domain.ExamMasterVO;
 
 public interface ExamApplicantService {
 	
-	public void renewApplicant(ExamApplicantVO examApplicantVO) throws Exception;
+	void renewApplicant(ExamApplicantVO examApplicantVO) throws Exception;
 	
-	public ExamApplicantVO selectView(ExamApplicantVO examApplicantVO) throws Exception; 
+	ExamApplicantVO selectView(ExamApplicantVO examApplicantVO) throws Exception; 
 	
-	public String selectMaxSn(String exam_sn) throws Exception;
+	String selectMaxSn(String exam_sn) throws Exception;
 	
 	
 }

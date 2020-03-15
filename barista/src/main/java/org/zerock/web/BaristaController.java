@@ -17,6 +17,7 @@ import org.zerock.service.CalendarService;
 import org.zerock.service.CommonService;
 import org.zerock.service.ComnCodeService;
 import org.zerock.service.MemberService;
+import org.zerock.util.ServiceUtil;
 
 @Controller
 @RequestMapping("/barista/*")
@@ -51,26 +52,15 @@ public class BaristaController {
 			cal_yyyy=sysDt.getCal_yyyy();
 			cal_mm=sysDt.getCal_mm();
 		}
-		//³â,¿ù ¸®½ºÆ®
+		//ï¿½ï¿½,ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 		List<String> getYYYYList = calendarService.getYYYYList();
 		
-		//Ä¶¸°´õ ¸®½ºÆ®
+		//Ä¶ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 		List<CalendarVO> getCalList = calendarService.getCalList(calendarVO);
 		
-	/*	¸®½ºÆ® in ¸®½ºÆ® Å×½ºÆ®. 20190712
-	 * 
-	 * for(CalendarVO list1: getCalList) 
-		{
-			System.out.println("list1.getCalendarDetailVO() : " + list1.getCalendarDetailVO().size());
-			if(list1.getCalendarDetailVO().size()>0) {
-				for(CalendarDetailVO list2 : list1.getCalendarDetailVO()) {
-					System.out.println("date : " + list2.getSpec_date());
-					System.out.println("memo : " + list2.getMemo());
-					
-				}
-			}
-		}
-		*/
+		
+		ServiceUtil.setSearchDate(calendarVO,model);
+		
 		model.addAttribute("getCalList",getCalList);
 		model.addAttribute("getYYYYList",getYYYYList);
 		
@@ -95,7 +85,7 @@ public class BaristaController {
 			cal_yyyy=sysDt.getCal_yyyy();
 			cal_mm=sysDt.getCal_mm();
 		}
-		//³â,¿ù ¸®½ºÆ®
+		//ï¿½ï¿½,ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 		List<String> getYYYYList = calendarService.getYYYYList();
 		model.addAttribute("getYYYYList", getYYYYList);
 		model.addAttribute("cal_yyyy", cal_yyyy);

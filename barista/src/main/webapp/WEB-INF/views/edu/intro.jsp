@@ -52,11 +52,11 @@
 			<p>합격정보를 확인할 검정을 선택하세요.</p>
 
 			<h4 class="bu02 tit">시험명</h4>
-			<form name="frm" id="frm" onsubmit="toSubmit();return false;">
+			<form name="frm" id="frm"  method="get" onsubmit="toSubmit();return false;">
 			<select class="full" name="edu_sn" id="edu_sn">
 				<option value="">선택하세요.</option>
 				<c:forEach var="list" items="${receiptList }">
-				<!-- varchar타입의 데이터형식을 포맷하기 위해 fmt:parseDate 이용하여 변환 -->
+				<!-- varchar타입의 데이터형식을 포맷하기 위해 fmt:parseDate 이용하여 변환 -->	
 				<fmt:parseDate value='${list.bgnde}' var='bgnde' pattern='yyyyMMddHHmm'/> 
 				<fmt:parseDate value='${list.endde}' var='endde' pattern='yyyyMMddHHmm'/>
 				<option value="${list.edu_sn }">${list.title } ( <fmt:formatDate value="${bgnde}" pattern="yyyy-MM-dd HH:mm"/> ~ <fmt:formatDate value="${endde}" pattern="yyyy-MM-dd HH:mm"/> )</option>

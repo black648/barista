@@ -1,160 +1,107 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-<div class="wrap1">
-	<h1 class="tit">
-		<img src="/resources/include/twb_images/login/h1MemberInfo.gif" alt="회원정보" />
-	</h1>
-
-	<div class="memberInfoName">
-		<strong>${memberVO.mber_name}</strong>님 방문을 환영합니다. 가입하신 회원정보는 아래와 같습니다.
-	</div>
-	<h2 class="tit">
-		<img src="/resources/include/twb_images/login/h2MemberInfo01.gif" alt="기본정보" />
-	</h2>
-	<div class="tableWrapGray">
-		
-		<table class="dataTable2" summary="기본정보(아이디, 이메일, 연락처, 휴대폰번호)">
-		
-				
-			<caption>기본정보 표</caption>
-			<colgroup>
-				<col style="width: 20%;" />
-				<col />
-				<col style="width: 20%;" /> 
-				<col />
-			</colgroup>
-			<tbody>
-				
-					<tr>
-						<th class="first" id="myId">아이디</th>
-						<td headers="myId">${memberVO.mber_id}</td>
-						<th id="myEmail">이메일</th>
-						<td headers="myEmail">${memberVO.email}</td>
-					</tr>
-					<tr>
-						<th class="first" id="myPhone">회원구분</th>
-						<td headers="myPhone">
-						<c:choose>
-							<c:when test="${memberVO.mber_se eq 'KOR' }">일반회원</c:when>
-							<c:when test="${memberVO.mber_se eq 'STF' }">바리스타 직원</c:when>
-							<c:when test="${memberVO.mber_se eq 'ENG' }">English Member</c:when>
-							<c:when test="${memberVO.mber_se eq 'JPN' }">Japanese Member</c:when>
-							<c:when test="${memberVO.mber_se eq 'CHN' }">Chinese Member</c:when>
-							<c:when test="${memberVO.mber_se eq 'ETC' }">ETC Member</c:when>
-						</c:choose>
-						</td>
-						<th id="myMoblPhone">휴대폰번호</th>
-						<td headers="myMoblPhone">${memberVO.mber_phone}</td>
-					</tr>
-					<tr>
-						<th scope="row" class="first">업체명</th>
-						<td colspan="3" class="txtL">한국관광공사 관광정보전략팀</td>
-					</tr>
-					
-
-					<tr>
-						<th scope="row" class="first">주소</th>
-						<td colspan="3" class="txtL">${memberVO.address1}</td>
-					</tr>
-
-				
-
-
-			</tbody>
-		</table>
-	</div>
-
-
-	<h2 class="tit mTl">
-		<img src="/resources/include/twb_images/login/h2MemberInfo02.gif" alt="부가정보" />
-	</h2>
 	
-
-	<div class="btnGroup">
-		
 	
-		<a href="/member/modifyDefault"><img
-			src="/resources/include/twb_images/login/btnMemberModify.gif"
-			alt="회원정보수정하기" /></a>
-		
-		<a href="/member/modifyPw"><img
-			src="/resources/include/twb_images/login/btnPssswordModify.gif"
-			alt="비밀번호 변경" /></a>
-
+	
+	<!-- subTit -->
+	<div class="subTit sub03">
+		<h1>마<span>/</span>이<span>/</span>페<span>/</span>이<span>/</span>지</h1>
 	</div>
-
-	<h2 class="tit mTl">
-		<img src="/resources/include/twb_images/login/h2MemberInfo03.gif" alt="My스크랩" />
-	</h2>
-	<div class="tableWrap">
-		<table class="basicList" summary="My스크랩 (폴더, 제목, 메모, 스크랩한 날짜)">
-			<caption>My스크랩 표</caption>
+	<!-- // subTit -->
+	<!-- Content -->
+	<div class="content">
+	<div class="clearfix">
+			<h4 class="bu05 tit pB10"><strong>${memberVO.mber_name}</strong>님 방문을 환영합니다. 가입하신 회원정보는 아래와 같습니다.</h4>
+			<div class="apply mT0">
+				<div class="img_wrap">
+					<img id="img">
+				</div>
+					<table summary="제목, 성명, 연락처, 성별, 생년월일, e-mail, 사진등록 항목으로 구성된 입사지원서 표입니다." class="tb03">
+					<caption>회원정보</caption>
+					<colgroup>
+						<col style="width:30%;">
+						<col style="width:70%;">
+					</colgroup>
+					<tbody>
+						<tr>
+							<th scope="row">성명</th>
+							<td>${memberVO.mber_name }</td>
+						</tr>
+						<tr>
+							<th scope="row">연락처</th>
+							<td>${memberVO.mber_phone }</td>
+						</tr>
+						<tr>
+							<th scope="row">E-mail</th>
+							<td>${memberVO.email }</td>
+						</tr>
+						<tr>
+							<th scope="row">회원구분</th>
+							<td headers="myPhone">
+							<c:choose>
+								<c:when test="${memberVO.mber_se eq 'KOR' }">일반회원</c:when>
+								<c:when test="${memberVO.mber_se eq 'STF' }">바리스타 직원</c:when>
+								<c:when test="${memberVO.mber_se eq 'ENG' }">English Member</c:when>
+								<c:when test="${memberVO.mber_se eq 'JPN' }">Japanese Member</c:when>
+								<c:when test="${memberVO.mber_se eq 'CHN' }">Chinese Member</c:when>
+								<c:when test="${memberVO.mber_se eq 'ETC' }">ETC Member</c:when>
+							</c:choose>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">업체명</th>
+							<td >한국관광공사 관광정보전략팀</td>
+						</tr>
+						<tr>
+							<th scope="row">주소</th>
+							<td >
+								${memberVO.address1}
+							</td>
+						</tr>
+						
+					</tbody>
+				</table>
+			</div>	
+		</div>
+		<!-- button -->
+		<div class="mT20 tC full">
+			<button type="button" onclick="location.href='/news/qna/list'" class="btn btn_brown btn_login mR10">회원정보수정</button>
+			<button type="button" onclick="location.href='/news/qna/list'" class="btn btn_grey btn_check">비밀번호변경</button>
+		</div>
+		<!-- // button -->
+		
+		<h4 class="bu05 tit pB10">교육접수현황</h4>
+		<table summary="제목, 등록자, 등록일, 담당부서, 처리상태 항목으로 구성된 접수확인 안내표입니다." class="tb01 mT40">
+			<caption>접수확인 안내표</caption>
 			<colgroup>
-				<col style="width: 12%;" />
-				<col />
-				<col style="width: 20%;" />
-				<col style="width: 15%;" />
+				<col style="width:10%;" />
+				<col style="width:*;" />
+				<col style="width:10%;" />
+				<col style="width:10%;" />
+				<col style="width:10%;" />
 			</colgroup>
 			<thead>
 				<tr>
-					<th scope="col" class="first">폴더</th>
-					<th scope="col">제목</th>
-					<th scope="col">메모</th>
-					<th scope="col" class="last">스크랩한 날짜</th>
+					<th scope="col"/>수험번호</th>
+					<th scope="col"/>교육명</th>
+					<th scope="col"/>신청기간</th>
+					<th scope="col"/>교육기간</th>
+					<th scope="col"/>처리상태</th>
 				</tr>
 			</thead>
 			<tbody>
-
-				
-				
-					<tr>
-						<td colspan="4">스크랩 정보가 존재하지 않습니다.</td>
-					</tr>
-				
-
+			<tr>
+				<td class="first title">12312313</td>
+				<td>타이틀</td>
+				<td>1231231313213</td>
+				<td>교육지원팀</td>
+				<td>12321312</td>
+			</tr>
 			</tbody>
+			
 		</table>
-	</div>
-	<h2 class="tit mTl">
-		<img src="/resources/include/twb_images/login/h2MemberInfo04.gif" alt="고객마당" />
-	</h2>
-	<div class="tableWrap">
-		<table class="basicList" summary="고객마당 (게시판명, 제목, 등록일)">
-			<caption>고객마당 표</caption>
-			<colgroup>
-				<col style="width: 25%;" />
-				<col />
-				<col style="width: 15%;" />
-				
-			</colgroup>
-			<thead>
-				<tr>
-					<th scope="col" class="first">게시판명</th>
-					<th scope="col">제목</th>
-					<th scope="col" class="last">등록일</th>
-					
-				</tr>
-			</thead>
-			<tbody>
-	
-				
-				
-					<tr>
-						<td colspan="3">게시글이 존재하지 않습니다.</td>
-					</tr>
-				
-
-			</tbody>
-		</table>
-	</div>
-  
 </div>
-
-	
-
-
 
 
 

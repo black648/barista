@@ -27,46 +27,40 @@
 		
 	</script>
     
-    <!-- sub 이름 -->	
-<div id="sub1_1">
-	<div class="wrap1">
-		<div class="top">
-			<div class="name">검정 신청</div>
-		</div>
+	<!-- subTit -->
+	<div class="subTit sub05">
+		<h1>검<span>/</span>정<span>/</span>신<span>/</span>청<span>/</span>조<span>/</span>회</h1>
 	</div>
-</div>
+	<!-- // subTit -->
 
-<div id="request">
-	<div class="wrap1">
-		<h3>${memberVO.mber_name }님께서 접수하신 검정 목록입니다.</h3>
-		<form name="frm" id="frm" onsubmit="toSubmit();return false;">
-			<div class="row_table">
-			<table width="100%" cellpadding="0" cellspacing="0" border="0" summary="검정신청">
-				<caption>검정신청</caption>
-				<colgroup>
-				<col width="22%">
-				<col width="78%">
-				</colgroup>
-				<tr>
-					<th>시험명</th>
-					<td>
-						<select style="width:500px;" name="exam_sn" id="exam_sn">
-							<option value="">선택하세요.</option>
-							<c:forEach var="list" items="${list }">
-							<!-- varchar타입의 데이터형식을 포맷하기 위해 fmt:parseDate 이용하여 변환 -->
-							<fmt:parseDate value='${list.bgnde}' var='bgnde' pattern='yyyyMMddHHmm'/> 
-							<fmt:parseDate value='${list.endde}' var='endde' pattern='yyyyMMddHHmm'/>
-							<option value="${list.exam_sn }">${list.title } ( <fmt:formatDate value="${bgnde}" pattern="yyyy-MM-dd HH:mm"/> ~ <fmt:formatDate value="${endde}" pattern="yyyy-MM-dd HH:mm"/> )</option>
-							</c:forEach>
-						</select>
-					</td>
-				</tr>
-			</table>
+
+	<!-- Content -->
+	<div class="content">
+		<!-- pass -->
+		<div class="receipt">
+			<p>합격정보를 확인할 검정을 선택하세요.</p>
+
+			<h4 class="bu02 tit">시험명</h4>
+			<form name="frm" id="frm" onsubmit="toSubmit();return false;">
+			<select class="full" name="exam_sn" id="exam_sn">
+				<option value="">선택하세요.</option>
+				<c:forEach var="list" items="${list }">
+				<!-- varchar타입의 데이터형식을 포맷하기 위해 fmt:parseDate 이용하여 변환 -->
+				<fmt:parseDate value='${list.bgnde}' var='bgnde' pattern='yyyyMMddHHmm'/> 
+				<fmt:parseDate value='${list.endde}' var='endde' pattern='yyyyMMddHHmm'/>
+				<option value="${list.exam_sn }">${list.title } ( <fmt:formatDate value="${bgnde}" pattern="yyyy-MM-dd HH:mm"/> ~ <fmt:formatDate value="${endde}" pattern="yyyy-MM-dd HH:mm"/> )</option>
+				</c:forEach>
+			</select>
+
+			<!-- button -->
+			<div class="mT20 tR">
+				<button type="submit" class="btn btn_brown btn_search">조회하기</button>
 			</div>
-			<div class="button">
-				<input type="image" src="/resources/include/twb_images/sub_images/sub1_3_on.jpg" title="확인">
+			<!-- // button -->
 			
-			</div>
-		</form>
+			</form>
+		</div>
+		<!-- // pass -->
 	</div>
-</div>
+	<!-- // Content -->
+

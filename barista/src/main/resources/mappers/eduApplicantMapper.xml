@@ -4,6 +4,74 @@
 
 <!-- namespace 는 DAO나 DAOImpl에 정의한 namespace와 동일해야 함. -->
 <mapper namespace="org.zerock.mapper.eduApplicantMapper">
-	
+<update id="renewApplicant">
+MERGE INTO EDU_APPLICANT USING DUAL ON (APC_SN = #{apc_sn,jdbcType=VARCHAR})
+WHEN MATCHED THEN
+  UPDATE
+  SET 
+    MBER_NAME =#{mber_name},
+    MBER_ENGNAME =#{mber_engname},
+    GUNMUL    =#{gunmul},
+    ADDRESS1  =#{address1},
+    MBER_PHONE=#{mber_phone},
+    EMAIL     =#{email},
+    UPD_DE    =SYSDATE 
+    WHEN NOT MATCHED THEN
+  INSERT
+    (EDU_SN,
+      APC_SN,
+      MBER_ID,
+      MBER_NAME,
+      GUNMUL,
+      ADDRESS1,
+      MBER_PHONE,
+      EMAIL,
+      CRE_DE,
+      UPD_DE,
+      MBER_ENGNAME,
+      EDU_YN,
+      AGREE1,
+      AGREE2
+    )
+    VALUES
+    (
+      #{edu_sn},
+      #{apc_sn},
+      #{mber_id},
+      #{mber_name},
+      #{gunmul},
+      #{address1},
+      #{mber_phone},
+      #{email},
+      sysdate,
+      sysdate,
+      #{mber_engname},
+      'N',
+      #{agree1},
+      #{agree2}
+    )
+
+</update>
+<select id="selectView" resultType="org.zerock.domain.EduApplicantVO">
+	<![CDATA[
+	SELECT 
+		A.*
+	FROM EDU_APPLICANT A
+	WHERE 
+		A.EDU_SN=#{edu_sn} AND
+		A.MBER_ID=#{mber_id}
+			
+	]]>
+</select>
+<select id="selectMaxSn" resultType="String">
+	<![CDATA[
+	SELECT APC_SN FROM(
+		SELECT ROWNUM, APC_SN FROM(
+			SELECT APC_SN FROM EDU_APPLICANT WHERE EDU_SN=#{edu_sn} ORDER BY APC_SN DESC)
+		WHERE ROWNUM=1
+	)
+	]]>
+</select>
+
 	
 </mapper>

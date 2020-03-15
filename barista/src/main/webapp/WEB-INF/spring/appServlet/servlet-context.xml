@@ -43,6 +43,7 @@
 				<mapping path="/edu/selectReceiptYN" />
 				<mapping path="/edu/viewIntro"/>
 				<mapping path="/edu/passView"/>
+				<mapping path="/resume/**"/>
 				<beans:ref bean="authInterceptor" />
 			</interceptor>
 		</interceptors>

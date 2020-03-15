@@ -19,8 +19,7 @@
 			EDU_APPLICANT B
 		WHERE
 			A.EDU_SN = B.EDU_SN
-			AND A.EDU_SN = #{edu_sn}
-			AND B.APC_SN = #{eduAppicant.apc_sn}
+			AND B.MBER_ID = #{eduApplicantVO.mber_id}
 			AND (A.EDU_BGNDE BETWEEN #{edu_bgnde} AND #{edu_endde}
 			OR A.EDU_ENDDE BETWEEN #{edu_bgnde} AND #{edu_endde})
 	</select>

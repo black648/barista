@@ -7,11 +7,11 @@ import org.zerock.domain.CalendarVO;
 
 public interface CalendarService {
 	
-	public List<String> getYYYYList() throws Exception;
+	List<String> getYYYYList() throws Exception;
 
-	public CalendarVO getSysDt() throws Exception;
+	CalendarVO getSysDt() throws Exception;
 	
-	public List<CalendarVO> getCalList(CalendarVO calendarVO) throws Exception;
+	List<CalendarVO> getCalList(CalendarVO calendarVO) throws Exception;
 	
-	public List<CalendarDetailVO> getCalDetailList(String spec_date) ;
+	List<CalendarDetailVO> getCalDetailList(String spec_date) ;
 }

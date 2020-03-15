@@ -8,18 +8,18 @@ import org.zerock.domain.SearchCriteria;
 
 public interface QnaService {
 	
-	public int getSeqNo() throws Exception;
+	int getSeqNo() throws Exception;
 	
-	public List<QnaVO> selectList(SearchCriteria cri) throws Exception;
+	List<QnaVO> selectList(SearchCriteria cri) throws Exception;
 	
-	public int countList(SearchCriteria cri) throws Exception;
+	int countList(SearchCriteria cri) throws Exception;
 	
-	public QnaVO selectView(int sn) throws Exception;
+	QnaVO selectView(int sn) throws Exception;
 	
-	public void countUpdate(int sn) throws Exception;
+	void countUpdate(int sn) throws Exception;
 	
-	public void insertQna(QnaVO qnaVO) throws Exception;
+	void insertQna(QnaVO qnaVO) throws Exception;
 	
-	public List<QnaAttachVO> selectAttach(int sn) throws Exception;
+	List<QnaAttachVO> selectAttach(int sn) throws Exception;
 	
 }

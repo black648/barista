@@ -17,8 +17,9 @@ public class EduApplicantVO {
 	private Date final_de; 		//최종접수일
 	private String final_yn; 	//최종접수여부
 	private String edu_yn; 		//교육인가여부
-	
-	
+	private String mber_engname ;
+	private String agree1; 
+	private String agree2;
 	public String getEdu_sn() {
 		return edu_sn;
 	}
@@ -103,6 +104,35 @@ public class EduApplicantVO {
 	public void setEdu_yn(String edu_yn) {
 		this.edu_yn = edu_yn;
 	}
+	public String getMber_engname() {
+		return mber_engname;
+	}
+	public void setMber_engname(String mber_engname) {
+		this.mber_engname = mber_engname;
+	}
+	public String getAgree1() {
+		return agree1;
+	}
+	public void setAgree1(String agree1) {
+		this.agree1 = agree1;
+	}
+	public String getAgree2() {
+		return agree2;
+	}
+	public void setAgree2(String agree2) {
+		this.agree2 = agree2;
+	}
+	@Override
+	public String toString() {
+		return "EduApplicantVO [edu_sn=" + edu_sn + ", apc_sn=" + apc_sn + ", mber_id=" + mber_id + ", mber_name="
+				+ mber_name + ", gunmul=" + gunmul + ", address1=" + address1 + ", address2=" + address2
+				+ ", mber_phone=" + mber_phone + ", email=" + email + ", cre_de=" + cre_de + ", upd_de=" + upd_de
+				+ ", final_de=" + final_de + ", final_yn=" + final_yn + ", edu_yn=" + edu_yn + ", mber_engname="
+				+ mber_engname + ", agree1=" + agree1 + ", agree2=" + agree2 + "]";
+	}
+	
+	
+	
 	
 	
 }

@@ -48,19 +48,19 @@ public class UploadController {
 	}*/
 	
 	@ResponseBody
-	@RequestMapping("/displayFile") //ÆÄ¶ó¹ÌÅÍ·Î ºê¶ó¿ìÀú¿¡¼­ Àü¼Û¹Þ±â ¿øÇÏ´Â ÆÄÀÏÀÇ ÀÌ¸§À» ¹ÞÀ½.
+	@RequestMapping("/displayFile") //ï¿½Ä¶ï¿½ï¿½ï¿½Í·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Û¹Þ±ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	public ResponseEntity<byte[]> displayFile(HttpServletRequest request) throws Exception {
 		/*
-		½ºÇÁ¸µ¿¡¼­ Á¦°øÇÏ´Â ResponseEntity Å¸ÀÔÀº °³¹ßÀÚ°¡ Á÷Á¢ °á°ú µ¥ÀÌÅÍ + HTTPÀÇ »óÅÂ ÄÚµå¸¦ Á÷Á¢ Á¦¾îÇÒ ¼ö ÀÖ´Â Å¬·¡½ºÀÌ´Ù.
-		ResponseEntity¸¦ ÀÌ¿ëÇÔ¸é °³¹ßÀÚ´Â 404, 500°°Àº HTTP »óÅÂ ÄÚµå¸¦ Àü°øÇÏ°í ½ÍÀº µ¥ÀÌÅÍ¿Í ÇÔ²² Àü¼ÛÇÒ ¼ö ÀÖ±â ¶§¹®¿¡ Á» ´õ ¼¼¹ÐÇÑ Á¦¾î°¡ ÇÊ¿äÇÑ °æ¿ì¿¡ »ç¿ëÇÑ´Ù.
+		ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ResponseEntity Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ + HTTPï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµå¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
+		ResponseEntityï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ô¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ 404, 500ï¿½ï¿½ï¿½ï¿½ HTTP ï¿½ï¿½ï¿½ï¿½ ï¿½Úµå¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ ï¿½Ô²ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½î°¡ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		*/
 		InputStream in = null;
 		ResponseEntity<byte[]> entity = null;
 		
 		String fileName = request.getParameter("file_mask_name");
 		String path = request.getParameter("path");
-		
-		System.out.println("displayFileÁ¢±Ù : " + fileName);
+		System.out.println("path : "+path);
+		System.out.println("displayFileï¿½ï¿½ï¿½ï¿½ : " + fileName);
 		try {
 			String formatName = fileName.substring(fileName.lastIndexOf(".")+1);
 			MediaType mType = MediaUtils.getMediaType(formatName);
@@ -70,11 +70,11 @@ public class UploadController {
 			if(mType!=null) {
 				headers.setContentType(mType);
 			}else {
-				System.out.println("´Ù¿î·Îµå¿ë ÆÄÀÏ");
+				System.out.println("ï¿½Ù¿ï¿½Îµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½");
 				fileName=fileName.substring(fileName.indexOf("_")+1);
 				System.out.println(fileName);
-				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM); //´Ù¿î·Îµå ¿ëÀ¸·Î »ç¿ëµÇ´Â application/octet-stream À¸·Î ÁöÁ¤
-				headers.add("Content-Disposition", "attachment; filename=\""+ new String(fileName.getBytes("UTF-8"), "ISO-8859-1")+"\""); //ÇÑ±ÛÃ³¸®
+				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM); //ï¿½Ù¿ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç´ï¿½ application/octet-stream ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+				headers.add("Content-Disposition", "attachment; filename=\""+ new String(fileName.getBytes("UTF-8"), "ISO-8859-1")+"\""); //ï¿½Ñ±ï¿½Ã³ï¿½ï¿½
 			}
 			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in),headers,HttpStatus.CREATED);
 			System.out.println(entity);
@@ -115,11 +115,11 @@ public class UploadController {
 //		UploadFileUtils.uploadFile(file.getOriginalFilename(),file.getBytes(), uploadPath,savedName );
 //		
 //		
-//		// ÆÄÀÏÀúÀå¸í : ÆÄÀÏ½ÃÄö½º + 001 ÀÌºÎºÐ ¼öÁ¤ÇØ¤Á¤·ÇÔ...........
+//		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ï¿½ï¿½ + 001 ï¿½ÌºÎºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¤ï¿½ï¿½ï¿½ï¿½ï¿½...........
 //		// AttachVO.setSavedfilename(UploadFileUtils.uploadFile(file.getOriginalFilename(),file.getBytes(), uploadPath ));
 //		vo.setOrgfilename(file.getOriginalFilename());
 //
-//		//ÆÄÀÏ °æ·Î¿¡ / ¸¦ Á¦°ÅÇÏ±â À§ÇØ ¾Æ·¡¿Í °°ÀÌ ¹®ÀÚ¿­À» ÀÚ¸§.
+//		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¿ï¿½ / ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Ú¸ï¿½.
 //		int idx = filePath.indexOf(File.separator);
 //		vo.setDirpath(filePath.substring(idx+1));
 //		
@@ -159,7 +159,7 @@ public class UploadController {
 				}
 				
 				
-				//20180215 savedName ·ÎÁ÷ Ãß°¡
+				//20180215 savedName ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 				if(fileOne==null || "".equals(fileOne)) {
 					str_seq=String.valueOf(seqno)+"001";
 					//savedFileNm=Integer.valueOf(str_seq);
@@ -192,12 +192,12 @@ public class UploadController {
 			} 
 			
 		}else{
-			System.out.println("µ¥ÀÌÅÍ¾øÀ½...");
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½Í¾ï¿½ï¿½ï¿½...");
 		}
 		
 		
 		
-		return new ResponseEntity<>(attachVO, HttpStatus.CREATED);
+		return new ResponseEntity<AttachVO>(attachVO, HttpStatus.CREATED);
 
 		
 	}

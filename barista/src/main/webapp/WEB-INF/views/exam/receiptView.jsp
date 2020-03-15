@@ -29,109 +29,95 @@
 		
 	</script>
     
-    <!-- sub 이름 -->	
-<div id="sub1_1">
-	<div class="wrap1">
-		<div class="top">
-			<div class="name">접수확인</div>
+    
+    <!-- subTit -->
+	<div class="subTit sub05">
+		<h1>접<span>/</span>수<span>/</span>확<span>/</span>인</h1>
+	</div>
+	<!-- // subTit -->
+	<!-- Content -->
+	<div class="content">
+		<!-- confrim -->
+		<div class="confrim">
+			<h4 class="bu05 tit">접수내용 확인</h4>
+			<p class="tR f12 mB10">(<span class="Orange Bold">*</span> 표시는 필수 입력사항입니다.)</p>
+			<form id="frm" name="frm" method="post" onsubmit="toSubmit();return false;" enctype="multipart/form-data">
+				<input type="hidden" name="exam_sn" value="${examSn }" />
+				<input type="hidden" name="apc_sn" value="${examApplicantVO.apc_sn }" />
+				<input type="hidden" name="gunmul" value="${examApplicantVO.gunmul }" />
+				<input type="hidden" name="grade" value="${examApplicantVO.grade }" />
+				<input type="hidden" name="division" value="exam" />
+				<!-- table_box -->
+				<div class="table_box">
+					<!-- table -->
+					<table summary="아이디, 성명, 전화번호, 이메일, 제목, 내용, 공개여부, 파일첨부 항목으로 구성된 게시글 작성표입니다." class="tb03">
+						<caption>게시글 작성표</caption>
+						<colgroup>
+							<col style="width:20%;" />
+							<col style="width:80%;" />
+						</colgroup>
+						<tbody>
+							<tr>
+								<th scope="row">수험번호</th>
+								<td>${examApplicantVO.apc_sn}</td>
+							</tr>
+							<tr>
+								<th scope="row">시험명</th>
+								<td>${masterVO.title}</td>
+							</tr>
+							<tr>
+								<th scope="row">시험일정</th>
+								<td><fmt:formatDate value="${examde}" pattern="yyyy-mm-dd"/></td>
+							</tr>
+							<tr>
+								<th scope="row">시험장소</th>
+								<td>${codeVO.cd_nm } (${codeVO.cd_dscr })</td>
+							</tr>
+							<tr>
+								<th scope="row">접수기간</th>
+								<td><fmt:formatDate value="${bgnde}" pattern="yyyy-MM-dd HH:mm"/> ~ <fmt:formatDate value="${endde}" pattern="yyyy-MM-dd HH:mm"/></td>
+							</tr>
+							<tr>
+								<th scope="row">이름</th>
+								<td>${memberVO.mber_name }</td>
+							</tr>
+							<tr>
+								<th scope="row">영문이름</th>
+								<td>${examApplicantVO.mber_engname}</td>
+							</tr>
+							<tr>
+								<th scope="row">생년월일</th>
+								<td>${examApplicantVO.birth}</td>
+							</tr>
+							<tr>
+								<th scope="row">전화번호</th>
+								<td>${memberVO.mber_phone }</td>
+							</tr>
+							<tr>
+								<th scope="row">E-mail</th>
+								<td>${memberVO.email }</td>
+							</tr>
+							<tr>
+								<th scope="row">주소</th>
+								<td>${examApplicantVO.address1 }</td>
+							</tr>
+						</tbody>
+					</table>
+					<!-- // table -->
+					<div class="photo"><img src='/displayFile?file_mask_name=${attachVO.savedfilename}&path=${attachVO.dirpath} '></div>
+				</div>
+				<!-- // table_box -->
+				
+				<!-- button -->
+				<div class="mT20 tR">
+					<button type="button" onclick="javascript:goUpdate('${examSn }')" class="btn btn_brown btn_save mR10">접수정보 수정</button>
+					<button type="button" onclick="javascript:goDelete('${examSn }')" class="btn btn_red btn_cancel mR10">접수취소</button>
+					<button type="button" onclick="location.href='/exam/intro'" class="btn btn_grey btn_list">이전페이지로</button>
+				</div>
+				<!-- // button -->
+			</form>
 		</div>
+		<!-- // confrim -->
 	</div>
-</div>
-
-<div id="request">
-	<div class="wrap1">
-		<form id="frm" name="frm" method="post" onsubmit="toSubmit();return false;" enctype="multipart/form-data">
-			<input type="hidden" name="exam_sn" value="${examSn }" />
-			<input type="hidden" name="apc_sn" value="${examApplicantVO.apc_sn }" />
-			<input type="hidden" name="gunmul" value="${examApplicantVO.gunmul }" />
-			<input type="hidden" name="grade" value="${examApplicantVO.grade }" />
-			<input type="hidden" name="division" value="exam" />
-			<div class="row_table">
-			
-			<!-- 
-			<div class="photo"><img src='<spring:eval expression="@config['upload.dir']" />\_${attachVO.dirpath}\s_${attachVO.savedfilename}'></div>
-			 -->
-			 <div class="photo"><img src='/displayFile?file_mask_name=${attachVO.savedfilename}&path=${attachVO.dirpath} '></div>
-			<table width="100%" cellpadding="0" cellspacing="0" border="0" summary="검정신청">
-				<caption>검정신청</caption>
-				<colgroup>
-				<col width="22%">
-				<col width="28%">
-				<col width="22%">
-				<col width="28%">
-				</colgroup>
-				
-				
-				<tr>
-					<th class="pd">수험번호</th><td colspan="3">${examApplicantVO.apc_sn}</td>
-				</tr>
-				<tr>
-					<th  class="pd" >시험명</th><td  colspan="3">${masterVO.title}</td>
-				</tr>
-				<tr>
-					<th class="pd" >시험일정</th><td  colspan="3"><fmt:formatDate value="${examde}" pattern="yyyy-mm-dd"/> </td>
-				</tr>
-				<tr>
-					<th class="pd" >시험장소</th><td  colspan="3">${codeVO.cd_nm } (${codeVO.cd_dscr })</td>
-				</tr>
-				<tr>
-					<th >접수기간</th><td  colspan="3"><fmt:formatDate value="${bgnde}" pattern="yyyy-MM-dd HH:mm"/> ~ <fmt:formatDate value="${endde}" pattern="yyyy-MM-dd HH:mm"/>  </td>
-				</tr>
-				<tr>
-					<th ><label for="mane">이름</label></th>
-					<td>
-					${memberVO.mber_name }
-					</td>
-					<th ><label for="eng_mane">영문이름</label></th>
-					<td >${examApplicantVO.mber_engname}</td>
-					
-				</tr>
-			
-				<tr>
-				<th >
-		
-				
-				
-				<label for="year">생년월일</label></th>
-					<td  colspan="3">
-						${examApplicantVO.birth}
-					</td>
-				</tr>
-	
-				<tr>
-					<th >전화번호</th>
-					<td  colspan="3">
-					${memberVO.mber_phone }
-					</td>
-				</tr>
-				
-				
-				
-				<tr>
-					<th><label for="email">이메일</label></th>
-					<td colspan="3">
-						${memberVO.email }
-					</td>
-				</tr>
-				
-				<tr>
-					<th><label for="address">주소</label></th><td  colspan="3">${examApplicantVO.address1 }</td>
-				</tr>
-				
-	
-			</table>
-			</div>
-			<div class="button">
-			<!-- 
-			수정/삭제/인쇄하기 구현 필요.
-			 -->
-			
-			<a href="#update" onclick="javascript:goUpdate('${examSn }')"><img src="http://tong.visitkorea.or.kr/ktobiz/images/common/btn/btnSaveBig.gif" /></a>
-			<a href="#delete" onclick="javascript:goDelete('${examSn }')"><img src="http://tong.visitkorea.or.kr/ktobiz/images/common/btn/btnSaveBig.gif" /></a>
-			<a href="#cancel" onclick="location.href='/exam/intro'"><img src="http://tong.visitkorea.or.kr/ktobiz/images/common/btn/btnCancelBig.gif" alt="취소"/></a>
-
-			
-			</div>
-		</form>
-	</div>
-</div>
+	<!-- // Content -->
+    

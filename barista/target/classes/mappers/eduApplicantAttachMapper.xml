@@ -4,6 +4,35 @@
 
 <!-- namespace 는 DAO나 DAOImpl에 정의한 namespace와 동일해야 함. -->
 <mapper namespace="org.zerock.mapper.eduApplicantAttachMapper">
-	
-	
+
+	<update id="renewApplicantAttach">
+	MERGE INTO EDU_APPLICANT_ATTACH USING DUAL ON (APC_SN = #{apc_sn,jdbcType=VARCHAR})
+	WHEN MATCHED THEN
+	  UPDATE
+	  SET 
+	    SAVEDFILENAME =#{savedfilename},
+	    ORGFILENAME =#{orgfilename},
+	    DIRPATH    =#{dirpath},
+	    CRE_DATE    =SYSDATE ,
+	    UPD_DATE    =SYSDATE 
+	    WHEN NOT MATCHED THEN
+	  INSERT
+	    (SEQNO,SAVEDFILENAME,ORGFILENAME,DIRPATH,CRE_DATE,UPD_DATE,APC_SN
+	    )
+	    VALUES
+	    (
+	      edu_applicant_attach_key_seq.nextval,
+	      #{savedfilename},
+	      #{orgfilename},
+	      #{dirpath},
+	      sysdate,
+	      sysdate,
+	      #{apc_sn}
+	    )
+
+</update>
+
+	<select id="getOneFile"  resultType="org.zerock.domain.EduApplicantAttachVO">
+		SELECT * FROM EDU_APPLICANT_ATTACH WHERE APC_SN=#{apc_sn}
+	</select>
 </mapper>

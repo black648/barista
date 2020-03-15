@@ -6,11 +6,11 @@ import org.zerock.domain.BoardVO;
 import org.zerock.domain.SearchCriteria;
 
 public interface BoardService {
-	public List<BoardVO> selectList(SearchCriteria cri) throws Exception;
+	List<BoardVO> selectList(SearchCriteria cri) throws Exception;
 	
-	public int countList(SearchCriteria cri) throws Exception;
+	int countList(SearchCriteria cri) throws Exception;
 	
-	public BoardVO selectView(int id) throws Exception;
+	BoardVO selectView(int id) throws Exception;
 	
-	public void countUpdate(int id) throws Exception;
+	void countUpdate(int id) throws Exception;
 }

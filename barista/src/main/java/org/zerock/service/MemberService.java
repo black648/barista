@@ -7,16 +7,16 @@ import org.zerock.domain.MemberVO;
 import org.zerock.dto.LoginDTO;
 
 public interface MemberService {
-	public MemberVO readMember(String mber_id) throws Exception;
-	public MemberVO readWithPW(LoginDTO dto) throws Exception;
+	MemberVO readMember(String mber_id) throws Exception;
+	MemberVO readWithPW(LoginDTO dto) throws Exception;
 	
-	public List<MemberVO> idFind(MemberVO memberVO)throws Exception;
-	public MemberVO pwFind(MemberVO memberVO)throws Exception;
+	List<MemberVO> idFind(MemberVO memberVO)throws Exception;
+	MemberVO pwFind(MemberVO memberVO)throws Exception;
 	
-	public void insertMember(MemberVO vo);
-	public void updateMember(MemberVO vo);
-	public void updatePw(MemberVO vo);
+	void insertMember(MemberVO vo);
+	void updateMember(MemberVO vo);
+	void updatePw(MemberVO vo);
 
-	public void keepLogin(String mber_id,String sessionId, Date next) throws Exception;
-	public MemberVO checkLoginBefore(String value);
+	void keepLogin(String mber_id,String sessionId, Date next) throws Exception;
+	MemberVO checkLoginBefore(String value);
 }

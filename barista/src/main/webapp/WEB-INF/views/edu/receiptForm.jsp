@@ -12,7 +12,8 @@
 	<!-- varchar타입의 데이터형식을 포맷하기 위해 fmt:parseDate 이용하여 변환 -->
 	<fmt:parseDate value='${masterVO.bgnde}' var='bgnde' pattern='yyyyMMddHHmm'/> 
 	<fmt:parseDate value='${masterVO.endde}' var='endde' pattern='yyyyMMddHHmm'/>	
-	<fmt:parseDate value='${masterVO.examde}' var='examde' pattern='yyyymmdd'/>	
+	<fmt:parseDate value='${masterVO.edu_bgnde}' var='edu_bgnde' pattern='yyyymmdd'/>	
+	<fmt:parseDate value='${masterVO.edu_endde}' var='edu_endde' pattern='yyyymmdd'/>	
     <script type="text/javascript">
     $(document).ready(function(){
 	    var orgEmail1="";
@@ -33,31 +34,21 @@
 		
 		var frm = document.frm;
 
-		
+		if(frm.agree1.checked==false) {
+			alert("개인정보 수집동의를 동의해주세요.");
+			$("#cont1").show();
+			frm.agree1.focus();
+			return;
+		}
+		if(frm.agree2.checked==false) {
+			alert("개인정보 활용동의를 동의해주세요.");
+			$("#cont2").show();
+			frm.agree2.focus();
+			return;
+		}
 		if(frm.mber_engname.value=='') {
 			alert("영문이름을 입력하세요");
 			frm.mber_engname.focus();
-			return;
-		}
-		if(frm.exam_place_code.value=='') {
-			alert("시험장소를 선택하세요");
-			frm.exam_place_code.focus();
-			return;
-		}
-		
-		if(frm.year.value=='') {
-			alert("생년월일을 선택하세요");
-			frm.year.focus();
-			return;
-		}
-		if(frm.month.value=='') {
-			alert("생년월일을 선택하세요");
-			frm.month.focus();
-			return;
-		}
-		if(frm.date.value=='') {
-			alert("생년월일을 선택하세요");
-			frm.date.focus();
 			return;
 		}
 		if(frm.address1.value=='') {
@@ -65,17 +56,8 @@
 			frm.address1.focus();
 			return;
 		}
-		//수정의 경우 첨부파일을 체크하지 않도록.
-		if(frm.attachVO.value!='' && document.getElementById("photo").value=="" ) {
-			$("#photoYN").val("N");
-				document.frm.submit();
-		}else {
-			if(checkFileExt()) {
-				$("#photoYN").val("Y");
-				document.frm.submit();
-			}
-		}
 		
+		frm.submit();
     }
 		
 		function checkFileExt() {
@@ -123,152 +105,167 @@
 
 		
 	</script>
-    
-    <!-- sub 이름 -->	
-<div id="sub1_1">
-	<div class="wrap1">
-		<div class="top">
-			<div class="name">시험접수</div>
+
+<!-- subTit -->
+	<div class="subTit sub03">
+		<h1>교<span>/</span>육<span>/</span>신<span>/</span>청</h1>
+	</div>
+	<!-- // subTit -->
+	<!-- Content -->
+	<div class="content">
+	<form id="frm" name="frm" method="post"  onsubmit="toSubmit(); return false;" enctype="multipart/form-data">
+		<input type="hidden" name="edu_sn" value="${masterVO.edu_sn }" />
+		<input type="hidden" name="apc_sn" value="${applicantVO.apc_sn }" />
+		<input type="hidden" name="gunmul" value="${applicantVO.gunmul }" />
+		<input type="hidden" name="photoYN" id="photoYN" value="" />
+		<input type="hidden" name="attachVO" value="${attachVO } " />
+		<!-- 개인정보 수집동의 -->
+		<div class="stu_list">
+			<ul class="clearfix">
+				<li>개인정보 수집동의</li>
+			</ul>
+			<div class="cont" id="cont1">
+				<textarea readonly="readonly">제 1 장 총 칙
+
+제 1 조 (목적)
+
+본 약관은 바리스타 홈페이지 이용과 관련하여 이용자의 권리, 의무 및 책임사항 그리고 기타 필요한 사항을 규정하는 것을 목적으로 합니다.
+
+제 2 조 (약관의 효력 및 변경)
+
+약관의 내용은 서비스 화면에 게시하고 이용자가 동의함으로써 효력이 발생합니다. 검정단은 합리적인 사유가 발생될 경우에는 이 약관을 변경할 수 있으며, 약관이 변경되는 경우에는 최소한 7일전에 공지합니다. 또한 새로운 서비스가 개설될 경우, 별도의 명시된 설명이 없는 한 이 약관에 따라 제공됩니다.
+
+① 본 약관은 검정원이 서비스 화면을 통해 게시하고 이용자가 이에 동의함으로써 효력을 발생합니다.
+
+① 본 약관은 검정원이 서비스 화면을 통해 게시하고 이용자가 이에 동의함으로써 효력을 발생합니다.
+				</textarea>
+				<div class="tR mT10">
+					<input type="checkbox" name="agree1" id="agree1" value="Y">
+					<label for="agree1">약관을 읽고 동의합니다.</label>
+				</div>
+			</div>
 		</div>
-	</div>
-</div>
+		<!-- // 개인정보 수집동의 -->
+		<!-- 개인정보 활용동의 -->
+		<div class="stu_list">
+			<ul class="clearfix">
+				<li>개인정보 활용동의</li>
+			</ul>
+			<div class="cont" id="cont2">
+				<textarea readonly="readonly">제 1 장 총 칙
 
-<div id="request">
-	<div class="wrap1">
-		<form id="frm" name="frm" method="post" onsubmit="toSubmit();return false;" enctype="multipart/form-data">
-			<input type="hidden" name="edu_sn" value="${eduApplicantVO.exam_sn }" />
-			<input type="hidden" name="apc_sn" value="${eduApplicantVO.apc_sn }" />
-			<input type="hidden" name="gunmul" value="${eduApplicantVO.gunmul }" />
-			<input type="hidden" name="photoYN" id="photoYN" value="" />
-			<input type="hidden" name="division" value="" />
-			<input type="hidden" name="attachVO" value="${attachVO } " />
-			<div class="row_table">
-			<table width="100%" cellpadding="0" cellspacing="0" border="0" summary="검정신청">
-				<caption>검정신청</caption>
-				<colgroup>
-				<col width="22%">
-				<col width="28%">
-				<col width="22%">
-				<col width="28%">
-				</colgroup>
-				<tr>
-					<th ><label for="mane">이름</label></th>
-					<td><input type="hidden" title="이름" name="mber_name" id="mber_name" value="${memberVO.mber_name }" />
-					${memberVO.mber_name }
-					</td>
-					<th ><label for="eng_mane">영문이름</label></th>
-					<td ><input class="input2" type="text" title="영문이름" value="${eduApplicantVO.mber_engname}" name="mber_engname"  id="mber_engname"></td>
-					
-				</tr>
-				<tr>
-					<th>검정명</th>
-					<td colspan="3">
+제 1 조 (목적)
 
-						${masterVO.title}</option>
-					</td>
-				</tr>
-				<tr>
-					<th >접수기간</th><td  colspan="3"><fmt:formatDate value="${bgnde}" pattern="yyyy-MM-dd HH:mm"/> ~ <fmt:formatDate value="${endde}" pattern="yyyy-MM-dd HH:mm"/>  </td>
-				</tr>
-				<tr>
-					<th >검정일</th><td  colspan="3"><fmt:formatDate value="${edu_bgnde}" pattern="yyyy-mm-dd"/>  </td>
-				</tr>
-				<tr>
-					<!-- 20181018 개선해야할 부분
-						 1.공통코드 테이블 생성. 
-						 2.공통코드 테이블에 시험지역, 시험장소 부분을 코드로 등록
-						 3.현재 페이지를 호출하는 컨트롤러에 시험장소 코드를 조회하여 데이터를 넘겨줘야할 필요가 있음.(exam_master 테이블에 컬럼추가 할 필요는 없음)
-					 -->
-					<th >시험장소</th>
-					<td  colspan="3">
-					<select class="input3" name="exam_place_code">
-					<option value="">시험장소를 선택하세요.</option>
-					<c:forEach items="${codeList }" var="codeList">
-						<option value="${codeList.cd }" 
-						<c:if test="${codeList.cd eq eduApplicantVO.exam_place_code }"> selected="selected"</c:if>
-						>${codeList.cd_nm } (${codeList.cd_dscr })</option>
-					</c:forEach>
-					</select>
-					</td>
-				</tr>
-				
-				<tr>
-				<th >
+본 약관은 바리스타 홈페이지 이용과 관련하여 이용자의 권리, 의무 및 책임사항 그리고 기타 필요한 사항을 규정하는 것을 목적으로 합니다.
+
+제 2 조 (약관의 효력 및 변경)
+
+약관의 내용은 서비스 화면에 게시하고 이용자가 동의함으로써 효력이 발생합니다. 검정단은 합리적인 사유가 발생될 경우에는 이 약관을 변경할 수 있으며, 약관이 변경되는 경우에는 최소한 7일전에 공지합니다. 또한 새로운 서비스가 개설될 경우, 별도의 명시된 설명이 없는 한 이 약관에 따라 제공됩니다.
+
+① 본 약관은 검정원이 서비스 화면을 통해 게시하고 이용자가 이에 동의함으로써 효력을 발생합니다.
+
+① 본 약관은 검정원이 서비스 화면을 통해 게시하고 이용자가 이에 동의함으로써 효력을 발생합니다.
+				</textarea>
+				<div class="tR mT10">
+					<input type="checkbox" name="agree2" id="agree2" value="Y">
+					<label for="agree1">약관을 읽고 동의합니다.</label>
+				</div>
+			</div>
+		</div>
+		<!-- // 개인정보 활용동의 -->
 		
-				
-				
-				<label for="year">생년월일</label></th>
-				<td  colspan="3">
-				<select name="year" id="year">
-				<option value="">선택하세요.</option>
-				<!-- forEach 역순출력이 안됌...ex) 100 ->50 -->
-				<c:forEach var="cnt" begin="0" end="60" varStatus="status">
-					<c:set var="year" value="${yyyy - cnt}" />
-					<option value="${year }" <c:if test="${year eq eduApplicantVO.year}" >selected="selected"</c:if>>${year }</option> 
-				</c:forEach>
-				
-				
-				</select>
-				<select name="month">
-				<option value="">선택하세요.</option>
-				<c:forEach var="cnt" begin="1" end="12" varStatus="status">
-					<c:if test="${cnt lt 10 }">
-						<c:set var="cnt" value="0${cnt}" />
-					</c:if>
-					<option value="${cnt }" <c:if test="${cnt eq eduApplicantVO.month}" >selected="selected"</c:if>>${cnt }</option> 
-				</c:forEach>
-				</select>
-				<select name="date">
-				<option value="">선택하세요.</option>
-				<c:forEach var="cnt" begin="1" end="31" varStatus="status">
-					<c:if test="${cnt lt 10 }">
-						<c:set var="cnt" value="0${cnt}" />
-					</c:if>
-					<option value="${cnt }" <c:if test="${cnt eq eduApplicantVO.month}" >selected="selected"</c:if>>${cnt }</option> 
-				</c:forEach>
-				</select>
-				</td>
-				</tr>
-	
-				<tr>
-					<th >전화번호</th>
-					<td  colspan="3">
-				<input type="hidden" title="이름" name="mber_phone" id="mber_phone" value="${memberVO.mber_phone }" />
-					${memberVO.mber_phone }
-				</td>
-				</tr>
-				
-				
-				
-				<tr>
-					<th><label for="email">이메일</label></th>
-					<td colspan="3">
-						<input class="input2" type="hidden" title="이메일1" id="email" name="email" value="${memberVO.email }">
-						${memberVO.email }
-					</td>
-				</tr>
-				
-				<tr>
-					<th><label for="address">주소</label></th><td  colspan="3"><input class="input3" type="text" title="주소" id="address1" name="address1" value="${eduApplicantVO.address1 }" /></td>
-				</tr>
-				
-				
-				<tr>
-					<th><label for="photo">사진등록</label></th><td  colspan="3"><input class="input3" type="file" title="사진등록" id="photo" name="photo" /><br />
-						${attachVO.orgfilename }
-					</td>
-				</tr>
-				
-	
-	
-	
-			</table>
-			</div>
-			<div class="button">
-				<input type="image" alt="확인" src="../resources/include/twb_images/sub_images/sub1_3_on.jpg" title="확인" />
-				<img src="/resources/include/twb_images/sub_images/sub1_3_off.jpg" alt="취소" />
+		<div class="stu_txt">
+			<dl>	
+				<dt class="bu02">교육명 : </dt>
+				<dd>${masterVO.title}</dd>
+
+				<dt class="bu02">접수기간 : </dt>
+				<dd><fmt:formatDate value="${bgnde}" pattern="yyyy-MM-dd HH:mm"/> ~ <fmt:formatDate value="${endde}" pattern="yyyy-MM-dd HH:mm"/></dd>
+			</dl>
+		</div>
+		<div class="stu_txt">
+			<dl>	
+				<dt class="bu02">교육일정 : </dt>
+				<dd><fmt:formatDate value="${edu_bgnde}" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${edu_endde}" pattern="yyyy-MM-dd"/></dd>
+
+				<dt class="bu02">접수번호 : </dt>
+				<dd class="Orange">${applicantVO.apc_id}</dd>
+			</dl>
+		</div>
+
+		<!-- 교육신청 -->
+		<div class="clearfix">
+			<h4 class="bu05 tit pB10">교육신청</h4>
 			
+			<div class="apply mT0">
+				<div class="img_wrap">
+					<img id="img">
+				</div>
+				
+					<table summary="제목, 성명, 연락처, 성별, 생년월일, e-mail, 사진등록 항목으로 구성된 입사지원서 표입니다." class="tb03">
+					<caption>입사지원서</caption>
+					<colgroup>
+						<col style="width:15%;">
+						<col style="width:35%;">
+						<col style="width:15%;">
+						<col style="width:35%;">
+					</colgroup>
+					<tbody>
+						<tr>
+							<th scope="row">성명</th>
+							<td>
+							<input type="hidden" title="이름" name="mber_name" id="mber_name" value="${memberVO.mber_name }" class="full">${memberVO.mber_name }</td>
+							<th scope="row">영문명</th>
+							<td>
+								<input class="input2" type="text" title="영문이름" value="${applicantVO.mber_engname}" name="mber_engname"  id="mber_engname" class="full">
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">연락처</th>
+							<td colspan="3">
+								<input type="hidden" title="연락처" name="mber_phone" id="mber_phone" value="${memberVO.mber_phone }" />
+								${memberVO.mber_phone }					
+							</td>
+						</tr>
+						<tr>
+							<th scope="row" rowspan="2">주소</th>
+							<td colspan="3" class="noBorder" style="padding-bottom:0;">
+								<input type="text" title="주소" id="address1" name="address1" value="${applicantVO.address1 }" />
+								<button class="btn btn_grey">우편번호 찾기</button>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3">
+								<input type="text" title="상세주소" id="address2" name="address2" placeholder="상세주소를 입력하세요." value="${applicantVO.address1 }" class="full" />
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">E-mail</th>
+							<td colspan="3">
+								<input class="input2" type="hidden" title="이메일1" id="email" name="email" value="${memberVO.email }" class="full">
+								${memberVO.email }
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">사진등록</th>
+							<td colspan="3">
+								이미지 파일 확장자(<strong>jpg, jpeg, png, gif</strong>)만 첨부 가능합니다.<br>
+								<div class="filebox mT10 full clearfix">
+									<label for="photo">파일</label>
+									<input type="file" title="사진등록" id="photo" name="photo" style="width:calc(100% - 40px);">
+								</div>				
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				</div>
 			</div>
-		</form>
-	</div>
-</div>
+			<!-- // 교육신청 -->
+			<!-- button -->
+			<div class="mT40 tR">
+				<button type="button" class="btn btn_grey btn_list mR10">목록보기</button>
+				<button type="submit" class="btn btn_brown btn_check">접수하기</button>
+			</div>
+			<!-- //button -->
+			</form>
+	</div>	

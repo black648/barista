@@ -6,6 +6,6 @@ import org.zerock.domain.ComnCodeVO;
 
 public interface ComnCodeService {
 	
-	public List<ComnCodeVO> selectList(ComnCodeVO codeVO) throws Exception;
-	public ComnCodeVO selectView(String cd) throws Exception; 
+	List<ComnCodeVO> selectList(ComnCodeVO codeVO) throws Exception;
+	ComnCodeVO selectView(String cd) throws Exception; 
 }
